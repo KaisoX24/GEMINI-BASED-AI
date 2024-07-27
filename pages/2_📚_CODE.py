@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.title('CODE:')
-st.subheader('Created by Pramit Acharjya')
+st.subheader('Created by Pramit Acharjya & Indudip Biswas')
 st.subheader('We are providing our Source code so if anyone one else wants to learn about chatbot creation can use our code for inspiration')
 
 c='''
