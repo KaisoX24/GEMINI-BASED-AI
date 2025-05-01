@@ -33,7 +33,7 @@ Welcome to **Carbon**, your multi-functional AI assistant built using **Streamli
 ```
 carbon-chatbot/
 │
-├── 1_🤖_Chat.py                 # Main Streamlit app
+├── 1_🤖_Chat.py           # Main Streamlit app
 ├── .env                   # Environment file with API key
 ├── requirements.txt       # Python dependencies
 └── README.md              # This file
