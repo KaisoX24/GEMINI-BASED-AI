@@ -1,31 +1,31 @@
-import os
 import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 import google.generativeai as genai
 import google.ai.generativelanguage as glm 
 import io
 from PIL import Image
 import requests
 import time
-import fitz  # PyMuPDF
-import tempfile  # To handle temporary files
+import fitz 
+import tempfile  
 
 # Set page configuration
 st.set_page_config(page_title='Ask Any Query', page_icon=':upside_down_face:', layout='wide')
 
 # Configure Gemini API
-load_dotenv()
+
 safety_settings = [
     {"category": 'HARM_CATEGORY_SEXUALLY_EXPLICIT', "threshold": 'BLOCK_NONE'},
     {"category": 'HARM_CATEGORY_HATE_SPEECH', "threshold": 'BLOCK_NONE'},
     {"category": 'HARM_CATEGORY_HARASSMENT', "threshold": 'BLOCK_NONE'},
     {"category": 'HARM_CATEGORY_DANGEROUS_CONTENT', "threshold": 'BLOCK_NONE'}
 ]
-API_KEY = os.getenv('GEMINI_API_KEY')
-genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash', safety_settings=safety_settings)
+ 
+API_KEY = dotenv_values(".env")
+genai.configure(api_key=API_KEY['GEMINI_KEY'])
+model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17', safety_settings=safety_settings)
 chat = model.start_chat(history=[])
 
 # Chat response function
@@ -72,33 +72,10 @@ def extract_text_from_pdf(file):
 gif_code = load_gif('https://lottie.host/7ee14ed1-6657-403e-9473-17740461cfbb/I1mf32pHPq.json')
 gif_2 = load_gif('https://lottie.host/f6cff35b-d653-4c9d-b487-f5cadeb54e1e/z8UNfy8G61.json')
 
-st.sidebar.success('Select a page above.')
 
 # Center the image in the middle column
 co1, co2, co3 = st.columns([0.2, 0.09, 0.2])
 
-# Tabs
-selected_page  = option_menu(
-    menu_title='Main Menu',
-    options=['Chat Bot', 'Chat Image Recognition', 'PDF Analysis'],  # Added PDF Analysis tab
-    orientation='horizontal',
-    icons=['cast', 'image', 'file-earmark-text'],  # Added icon for PDF Analysis
-    styles={
-        "container": {"padding": "0px", "font-size": "16px", "height": "50px"},
-        "nav": {"flex-direction": "row"},
-        "nav-link": {
-            "padding": "0.5rem 1rem",
-            "background-color": "#f0f2f5",
-            "margin-right": "1rem",
-            "color": "#343a40",
-            "text-align": "center",
-            "text-decoration": "none",
-            "border": "0",
-            "font-weight": "bold"
-        },
-        "nav-link[selected]": {"background-color": "#a8a9ab"},
-    }
-)
 st.write('---')
 
 # Function to display chat history
@@ -108,6 +85,8 @@ def display_chat_history():
     st.subheader(":blue[Chat History]")
     for role, text in st.session_state['chat_history']:
         st.write(f"{role}: {text}")
+
+selected_page = st.sidebar.selectbox("Select a page", ['Chat Bot', 'Chat Image Recognition', 'PDF Analysis'])
 
 if selected_page == "Chat Bot":
     col1, col2 = st.columns(2)
@@ -131,11 +110,13 @@ if selected_page == "Chat Bot":
             if response:
                 st.session_state['chat_history'].append(('You', input_text))
                 st.subheader('**:red[The Response is]** :nerd_face:')
-                
+                streamed_text = st.empty() 
+                full_response = ""
                 for chunk in response:
-                    st.write(chunk.text)
-                    st.session_state['chat_history'].append(('Carbon', chunk.text))
-
+                    full_response += chunk.text
+                    streamed_text.markdown(f"{full_response}")
+                    time.sleep(0.05) 
+                st.session_state['chat_history'].append(('Carbon', full_response))
                 display_chat_history()
 
 elif selected_page == "Chat Image Recognition":
@@ -148,11 +129,11 @@ elif selected_page == "Chat Image Recognition":
         uploaded_file = st.file_uploader("Choose an Image", accept_multiple_files=False, type=["png", "jpg", "jpeg", "img", "webp"])
 
         if uploaded_file is not None:
-            st.image(Image.open(uploaded_file), use_column_width=True)
+            st.image(Image.open(uploaded_file), use_container_width=True)
             st.markdown("""<style>img {border-radius: 10px;}</style>""", unsafe_allow_html=True)
             
             if st.button(":orange[GET RESPONSE]", use_container_width=True):
-                model = genai.GenerativeModel('gemini-1.5-flash')
+                model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
 
                 if image_prompt:
                     image = Image.open(uploaded_file)
