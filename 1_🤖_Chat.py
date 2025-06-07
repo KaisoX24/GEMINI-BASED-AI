@@ -129,7 +129,8 @@ elif selected_page == "Chat Image Recognition":
         uploaded_file = st.file_uploader("Choose an Image", accept_multiple_files=False, type=["png", "jpg", "jpeg", "img", "webp"])
 
         if uploaded_file is not None:
-            st.image(Image.open(uploaded_file), use_container_width=True)
+            image = Image.open(uploaded_file)
+            st.image(image, use_container_width=True)
             st.markdown("""<style>img {border-radius: 10px;}</style>""", unsafe_allow_html=True)
             
             if st.button(":orange[GET RESPONSE]", use_container_width=True):
