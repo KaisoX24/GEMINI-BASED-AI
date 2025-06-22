@@ -80,7 +80,7 @@ This project was created to explore the powerful capabilities of Google’s Gene
 
 ## 🧠 Credits
 
-Developed by Pramit Acharjya and Indudip Biswas.
+Developed by Pramit Acharjya, Indudip Biswas, and Roshni Dutta .
 
 ---
 
