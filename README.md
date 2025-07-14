@@ -7,7 +7,7 @@ Welcome to **Carbon**, your multi-functional AI assistant built using **Streamli
 ## 🚀 Features
 
 - 🔹 **Chat Bot** – Ask anything and get real-time responses powered by Gemini 1.5 Flash.
-- 🖼️ **Image Recognition (Coming Soon)** – Upload an image and let AI describe or analyze it. *(Module loaded, logic can be extended)*
+- 🖼️ **Image Recognition** – Upload an image and let AI describe or analyze it.
 - 📄 **PDF Analyzer** – Upload a PDF and extract its textual content with a single click.
 - ✨ Lottie animations – Smooth, animated UI elements for a delightful experience.
 
