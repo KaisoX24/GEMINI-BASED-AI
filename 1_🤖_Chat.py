@@ -24,7 +24,7 @@ safety_settings = [
  
 API_KEY = dotenv_values(".env")
 genai.configure(api_key=API_KEY['GEMINI_KEY'])
-model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17', safety_settings=safety_settings)
+model = genai.GenerativeModel('gemini-2.5-flash', safety_settings=safety_settings)
 chat = model.start_chat(history=[])
 
 # Chat response function
@@ -132,7 +132,7 @@ elif selected_page == "Chat Image Recognition":
             st.markdown("""<style>img {border-radius: 10px;}</style>""", unsafe_allow_html=True)
             
             if st.button(":orange[GET RESPONSE]", use_container_width=True):
-                model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
+                model = genai.GenerativeModel('gemini-2.5-flash')
 
                 if image_prompt:
                     image = Image.open(uploaded_file)
@@ -192,3 +192,4 @@ elif selected_page == "PDF Analysis":  # New tab for PDF Analysis
                         with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp_file:
                             tmp_file.write(full_response.encode('utf-8'))
                             st.success(f"Analysis saved to {tmp_file.name}")
+
