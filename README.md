@@ -64,7 +64,7 @@ GEMINI_API_KEY=your_google_gemini_api_key
 ## ▶️ Running the App
 
 ```bash
-streamlit run app.py
+streamlit run main.py
 ```
 
 This will launch your app in the browser at `http://localhost:8501`.
